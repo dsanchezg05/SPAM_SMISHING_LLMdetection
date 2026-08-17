@@ -1,0 +1,8 @@
+streamlit>=1.38.0
+torch>=2.4.0
+transformers>=4.44.0
+numpy>=1.26.0
+pandas>=2.2.0
+joblib>=1.4.0
+scikit-learn>=1.4.0
+emoji>=2.12.0
