@@ -80,7 +80,7 @@ if but and len(string) >= 5:
                         df_input["prompt"][0],
                         truncation=True,
                         max_length=max_length,
-                        padding=True,           # padding dinámico solo dentro de este batch
+                        padding=True,           # dynamic padding within the batch
                         return_tensors="pt"
                     ).to(device)
 
@@ -100,7 +100,7 @@ if but and len(string) >= 5:
         v_concat = np.concatenate([torch.tensor(df_scaled["cls_embedding"]), torch.tensor(np.array(df_scaled["URL"]).reshape(-1, 1)), torch.tensor(np.array(df_scaled["EMAIL"]).reshape(-1, 1)), torch.tensor(np.array(df_scaled["PHONE"]).reshape(-1, 1))],axis=1)
         
         #Model MLP
-        # destacar que en moderBERT, cada token posee un embedding de longitud 768
+        # 768-length cls for modernBERT
         import torch
         import torch.nn as nn
         from torch.utils.data import Dataset, DataLoader
@@ -155,7 +155,7 @@ if but and len(string) >= 5:
 
     st.divider()
 
-    # Mostrar resultado con color según categoría
+    # Result depending on the category
     color_map = {"NORMAL": "green", "SPAM": "orange", "SMISHING": "red"}
     icon_map = {"NORMAL": "✅", "SPAM": "⚠️", "SMISHING": "🚨"}
 
@@ -164,7 +164,7 @@ if but and len(string) >= 5:
     st.progress(float(cpu_probs[1]), text=f"SPAM confidence: {float(cpu_probs[1])*100:.1f}%")
     st.progress(float(cpu_probs[2]), text=f"SMISHING confidence: {float(cpu_probs[2])*100:.1f}%")
 
-    # Features detectadas (opcional, si tienes esos datos)
+    # Detected features
     st.subheader("Detected signals")
     c1, c2, c3 = st.columns(3)
     c1.metric("URL", "Yes" if url_check(string) else "No")
@@ -173,6 +173,8 @@ if but and len(string) >= 5:
 
 elif (but and not string) or len(string) < 5:
     st.warning("Please, submit a message to analyze.")
+st.divider()  # Draws a horizontal rule
+st.markdown("Diego Sanchez (dsanchezg05)",text_alignment = "right")
 
 # Sidebar
 with st.sidebar:
