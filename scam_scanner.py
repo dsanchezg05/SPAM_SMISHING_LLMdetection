@@ -55,7 +55,7 @@ if but and (example_message != None or len(string) >= 5):
     if example_message == None:
         pass
     else:
-        if ex:
+        if ex or len(string) <= 5:
             string = example_message
         else:
             sting = string
