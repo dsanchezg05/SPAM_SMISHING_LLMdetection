@@ -33,8 +33,8 @@ normal_examples = [
 ]
 
 # Example usage: create a labeled dataset
-dataset = [(msg, "smishing") for msg in smishing_examples] + \
-          [(msg, "normal") for msg in normal_examples]
+dataset = [msg for msg in smishing_examples] + \
+          [msg for msg in normal_examples]
 
 # Input
 string = st.text_area(
@@ -42,7 +42,7 @@ string = st.text_area(
     height=120,
     placeholder="Ej: URGENT!!! You have won $500,000..."
 )
-example_message = st.selectbox("Example...", dataset, index = None, placeholder="Example...")
+example_message = st.selectbox("In case you want to use an example, select one from the list", dataset, index = None, placeholder="Example...")
 
 col1, col2 = st.columns([1, 4])
 with col1:
@@ -54,6 +54,7 @@ if but and len(string) >= 5:
         pass
     else:
         string = example_message
+    st.success(f"Message analyzed: {string}")
     with st.spinner("Analizing message..."):
         import pandas as pd
         import re
