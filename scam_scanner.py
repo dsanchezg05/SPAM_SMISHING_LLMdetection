@@ -49,7 +49,7 @@ with col1:
     but = st.button("Analyze", type="primary", icon="🔍", use_container_width=True)
 
 # Resultado
-if but and len(string) >= 5:
+if but and (example_message != None or len(string) >= 5):
     if example_message == None:
         pass
     else:
