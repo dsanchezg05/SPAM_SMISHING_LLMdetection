@@ -44,6 +44,8 @@ string = st.text_area(
 )
 example_message = st.selectbox("In case you want to use an example, select one from the list", dataset, index = None, placeholder="Example...")
 
+ex = st.checkbox("Use example")
+
 col1, col2 = st.columns([1, 4])
 with col1:
     but = st.button("Analyze", type="primary", icon="🔍", use_container_width=True)
@@ -53,7 +55,10 @@ if but and (example_message != None or len(string) >= 5):
     if example_message == None:
         pass
     else:
-        string = example_message
+        if ex:
+            string = example_message
+        else:
+            sting = string
     st.success(f"Message analyzed: {string}")
     with st.spinner("Analizing message..."):
         import pandas as pd
