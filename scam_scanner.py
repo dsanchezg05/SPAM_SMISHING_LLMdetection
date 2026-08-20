@@ -13,12 +13,36 @@ st.title(emoji.emojize(":iphone: Smishing/SPAM detector"))
 st.markdown("Analyze whether a text is considered as **spam**, **smishing** or **normal**.")
 st.divider()
 
+# Example SMS messages for classification (smishing vs. legitimate/normal)
+# For educational use: awareness training, filter testing, training datasets, etc.
+
+smishing_examples = [
+    "Bank of America: We detected suspicious activity on your account. Verify your identity now or it will be locked: bit.ly/boa-verify24",
+    "USPS: Your package could not be delivered due to an incomplete address. Update it here: usps-delivery-track.com before 24h",
+    "Congratulations! You've been selected to receive a free iPhone 15. Claim it now: promo-iphone-us.net (offer valid 2h)",
+    "Notice from PG&E: Your bill of $89.50 could not be processed. Avoid service disconnection: pge-billpay.info/update",
+    "DMV Alert: You have an unpaid fine of $200. Pay within 48h to avoid penalties: dmv-fines-online.com",
+]
+
+normal_examples = [
+    "Your Amazon order will arrive tomorrow between 10:00 AM and 2:00 PM. Track your shipment in the app.",
+    "Reminder: you have an appointment with Dr. Smith on Thursday 8/21 at 5:30 PM at Health Clinic. To cancel, call 555-123-4567.",
+    "Your Google verification code is 482913. Don't share it with anyone.",
+    "Hey! Is dinner still on for Saturday? Let me know if you need me to bring anything 😊",
+    "Verizon: Your August bill ($35.20) is now available in the My Verizon app.",
+]
+
+# Example usage: create a labeled dataset
+dataset = [(msg, "smishing") for msg in smishing_examples] + \
+          [(msg, "normal") for msg in normal_examples]
+
 # Input
 string = st.text_area(
     "Write or paste the message to analyze",
     height=120,
     placeholder="Ej: URGENT!!! You have won $500,000..."
 )
+example_message = st.selectbox("Example...", dataset, index = None, placeholder="Example...")
 
 col1, col2 = st.columns([1, 4])
 with col1:
@@ -26,6 +50,10 @@ with col1:
 
 # Resultado
 if but and len(string) >= 5:
+    if example_message == None:
+        pass
+    else:
+        string = example_message
     with st.spinner("Analizing message..."):
         import pandas as pd
         import re
